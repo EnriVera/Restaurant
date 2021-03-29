@@ -1,0 +1,31 @@
+{
+  "name": "restaurant",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.ts",
+    "start": "node src/API/index.ts"
+  },
+  "keywords": [],
+  "author": "Vera Enrique",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "0.21.0",
+    "body-parser": "1.19.0",
+    "cors": "2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "4.17.1",
+    "morgan": "1.10.0",
+    "package.json": "^2.0.1",
+    "pg": "^8.5.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.6.2"
+  },
+  "devDependencies": {
+    "nodemon": "2.0.6",
+    "ts-node": "8.10.2",
+    "typescript": "3.9.5"
+  }
+}

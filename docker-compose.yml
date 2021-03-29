@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  nodejs:
+    container_name: nodejs
+    restart: always
+    build: .
+    ports:
+      - 192.168.0.9:4789:4789
+    volumes:
+      - .:/user/src/app
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres
+    container_name: postgres
+    ports:
+      - 30205:5432
+    environment:
+      - POSTGRES_DB=postgres_restaurant
+      - POSTGRES_USER=restaurant
+      - POSTGRES_PASSWORD=rSUzRBlj4Sbi8625QHilqiCmcuMax2
+    
