@@ -8,7 +8,7 @@ const init = () => {
         dialect: 'postgres'
     });
 
-    sequelize.authenticate()
-             .then(() => console.log('Conected'))
-             .catch(console.error)
+    return sequelize;
 }
+
+module.exports = {sequelize: init()}
