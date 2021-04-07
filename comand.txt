@@ -1,0 +1,5 @@
+# To enter the nodejs application and migration eschema
+docker exec -it nodejs bash
+
+# To enter the postgres
+docker exec -it pg psql -U postgres
