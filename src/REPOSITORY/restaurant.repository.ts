@@ -1,27 +1,28 @@
-(() => {
-    const { Model, STRING } = require('sequelize')
-    const { commonModel, commonOptions } = require('./common.model');
+const { Model, STRING } = require('sequelize');
+const {commonModel, commonOptions} = require('./common.repository');
+import Tables from "./tables.repository";
+const { sequelize } = require("./sequelize");
 
-    class Restaurant extends Model { }
+class Restaurant extends Model { }
 
-    module.exports = (sequelize: any) => {
+Restaurant.init(
+    {
+        ...commonModel,
+        name: {
+            type: STRING({ length: 10 }),
+            allowNull: false,
+            field: 'name'
+        }
+    },
+    { ...commonOptions, modelName: "Restaurant", sequelize}
+);
 
-        Restaurant.init(
-            {
-                ...commonModel,
-                name: {
-                    type: STRING({ length: 10 }),
-                    allowNull: false,
-                    field: 'name'
-                }
-            },
-            { sequelize, ...commonOptions }
-        );
-        Restaurant.associate = function (models: any) {
-            Restaurant.hasMany(models.Tables, { as: 'tables' })
-        };
-        return Restaurant.sync({ force: true })
-            .then(() => console.log('Created the Restaurant table'))
-            .catch(console.error)
-    };
-})
+Restaurant.hasMany(Tables, {
+    foreignKey: "restaurant_id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE"
+});
+
+Restaurant.beforeSync(() => console.log(`The restaurant table is created`));
+
+export default Restaurant;

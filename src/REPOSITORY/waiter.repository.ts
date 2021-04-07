@@ -1,32 +1,32 @@
-(() => {
-    const { Model, STRING, INTEGER } = require('sequelize')
-    const { commonModel, commonOptions } = require('./common.model');
+const { Model, STRING, INTEGER } = require('sequelize')
+const { commonModel, commonOptions } = require('./common.repository');
+import Tables from "./tables.repository";
+const { sequelize } = require("./sequelize");
 
-    class Waiter extends Model { }
+class Waiter extends Model { }
 
-    module.exports = (sequelize: any) => {
+Waiter.init(
+    {
+        ...commonModel,
+        name: {
+            type: STRING({ length: 12 }),
+            allowNull: false,
+            field: 'name'
+        },
+        number_mozo: {
+            type: INTEGER,
+            allowNull: false,
+            field: 'number_mozo'
+        }
+    },
+    { ...commonOptions, modelName: "Waiter", sequelize }
+);
 
-        Waiter.init(
-            {
-                ...commonModel,
-                name: {
-                    type: STRING({ length: 12 }),
-                    allowNull: false,
-                    field: 'name'
-                },
-                number_mozo: {
-                    type: INTEGER,
-                    allowNull: false,
-                    field: 'number_mozo'
-                }
-            },
-            { sequelize, ...commonOptions }
-        );
-        Waiter.associate = function (models: any) {
-            Waiter.hasMany(models.Tables, { as: 'tables' })
-        };
-        return Waiter.sync({ force: true })
-            .then(() => console.log('Created the Waiter table'))
-            .catch(console.error)
-    };
-})
+Waiter.hasMany(Tables, {
+    foreignKey: "waiter_id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE"
+});
+
+Waiter.beforeSync(() => console.log(`The waiter table is created`));
+export default Waiter;

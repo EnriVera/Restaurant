@@ -9,8 +9,7 @@ const commonModel = {
 }
 
 const commonOptions = {
-    createdAt: 'created_at', 
-    updateAt: 'updated_at'
+    createdAt: 'created_at', updateAt: 'updated_at'
 }
 
-module.exports = {commonModel, commonOptions}
+export default {commonModel, commonOptions}
