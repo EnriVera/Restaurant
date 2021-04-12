@@ -1,48 +1,15 @@
-const { Model, STRING, INTEGER } = require('sequelize')
-const { commonModel, commonOptions } = require('./common.repository');
-import AdditionProduct from "./addition-product.repository";
-const { sequelize } = require("./sequelize");
+const { sequelize } = require("./sequelize/sequelize");
 
-class Product extends Model { }
-
-Product.init(
-    {
-        ...commonModel,
-        title: {
-            type: STRING({ length: 12 }),
-            allowNull: false,
-            field: 'title'
-        },
-        description: {
-            type: STRING({ length: 100 }),
-            allowNull: true,
-            field: 'description'
-        },
-        type_plate_drink: {
-            type: STRING({ length: 5 }),
-            allowNull: false,
-            field: 'type_plate_drink'
-        },
-        percentage_sale: {
-            type: INTEGER,
-            allowNull: false,
-            field: 'percentage_sale'
-        },
-        price: {
-            type: INTEGER,
-            allowNull: false,
-            field: 'price'
-        }
-    },
-    { ...commonOptions, modelName: "Product", sequelize }
-);
-
-Product.hasMany(AdditionProduct, {
-    foreignKey: "product_id",
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE"
-});
-
-Product.beforeSync(() => console.log(`The product table is created`));
+const Product = () => {
+    sequelize.query(`
+    create table Product(
+        id uuid primary key not null,
+        title varchar(20) not null ,
+        description varchar(100),
+        type_plate_drink varchar(5) not null,
+        price INTEGER
+    );
+    `);
+}
 
 export default Product;

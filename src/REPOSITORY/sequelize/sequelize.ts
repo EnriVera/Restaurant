@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize');
-require('dotenv').config();
 
+const url = process.env.DB_URL
 const init = () => {
-    const sequelize = new Sequelize("postgres://restaurant:rSUzRBlj4Sbi8625QHilqiCmcuMax2@pg/postgres_restaurant", {
+    const sequelize = new Sequelize(url, {
         dialect: 'postgres'
     });
 

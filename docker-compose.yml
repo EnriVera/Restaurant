@@ -9,15 +9,3 @@ services:
       - 192.168.0.9:4789:4789
     volumes:
       - .:/user/src/app
-    depends_on:
-      - pg
-  pg:
-    image: postgres
-    container_name: pg
-    ports:
-      - 30205:5432
-    environment:
-      - POSTGRES_DB=postgres_restaurant
-      - POSTGRES_USER=restaurant
-      - POSTGRES_PASSWORD=rSUzRBlj4Sbi8625QHilqiCmcuMax2
-    
