@@ -1,0 +1,7 @@
+FROM node:15.12.0
+WORKDIR /user
+COPY package.json /user
+RUN npm install yarn
+RUN yarn add package.json
+COPY . /user
+CMD [ "yarn", "dev" ]

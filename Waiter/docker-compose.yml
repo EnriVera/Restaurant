@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  back-nodejs:
+    container_name: back-nodejs
+    restart: always
+    build: .
+    ports:
+      - 4790:4790
+    volumes:
+      - .:/user

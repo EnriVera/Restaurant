@@ -7,8 +7,31 @@ const router = express.Router();
 
 const owner = new Owner(new OwnerRepository());
 owner.AddOwnerUserPassword();
+owner.AddOwnerGoogle();
 const secret = process.env.SECRET_JWT
 
+const isLoggedIn = (req: any, res: any, next: any) => {
+    if (req.user) {
+        next();
+    } else {
+        res.sendStatus(401);
+    }
+}
+
+router.get('/', (req: any, res: any) => res.send('Express + TypeScript Server'));
+router.get('/credential', (req: any, res: any) => {
+    fetch('https://www.googleapis.com/oauth2/v1/certs')
+    .then((data: any) => {
+        console.log("Data: ",data)
+        res.json(data)
+    })
+})
+router.get('/failed', (req: any, res: any) => res.send('You Failed to log in!'))
+
+// In this route you can see that if the user is logged in u can acess his info in: req.user
+router.get('/good', isLoggedIn, (req: any, res: any) => res.send(`Welcome mr ${req.user.displayName}!`))
+
+// SignIn and SignUp
 router.post('/signup', async (req: any, res: any, next: any) => {
     passport.authenticate('signup', async (err: any, user: any, info: any) => {
         if (err) {
@@ -67,6 +90,21 @@ router.post('/login', async (req: any, res: any, next: any) => {
             return next(e)
         }
     })(req, res, next)
+})
+
+// OAuth con google
+router.get('/google', passport.authenticate('google', { scope: ["profile", "email"] }));
+
+router.get('/google/OAuth', passport.authenticate('google', { failureRedirect: '/owner/failed' }),
+    function (req: any, res:any) {
+        res.redirect('/owner/good');
+    }
+);
+
+router.get('/logout', (req: any, res: any) => {
+    req.session = null;
+    req.logout();
+    res.redirect('/');
 })
 
 module.exports = router;
