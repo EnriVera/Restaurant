@@ -11,7 +11,7 @@ function SequelizeInit() {
         .then(async () => {
             await console.info('INFO - Database connected.');
             await Owner();
-            setInterval(async () => {
+            setTimeout(async () => {
                 await Restaurant();
                 await Waiter();
                 await Product();

@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  nodejs:
+    container_name: nodejs_smtp
+    restart: always
+    build: .
+    ports:
+      - 192.168.0.6:4810:4810
+    volumes:
+      - .:/smtp

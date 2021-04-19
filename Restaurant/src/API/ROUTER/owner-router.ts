@@ -6,7 +6,6 @@ import Owner from "../CONTROLLER/owner-controller";
 const router = express.Router();
 
 const owner = new Owner(new OwnerRepository());
-owner.AddOwnerUserPassword();
 owner.AddOwnerGoogle();
 const secret = process.env.SECRET_JWT
 
@@ -19,13 +18,6 @@ const isLoggedIn = (req: any, res: any, next: any) => {
 }
 
 router.get('/', (req: any, res: any) => res.send('Express + TypeScript Server'));
-router.get('/credential', (req: any, res: any) => {
-    fetch('https://www.googleapis.com/oauth2/v1/certs')
-    .then((data: any) => {
-        console.log("Data: ",data)
-        res.json(data)
-    })
-})
 router.get('/failed', (req: any, res: any) => res.send('You Failed to log in!'))
 
 // In this route you can see that if the user is logged in u can acess his info in: req.user
@@ -33,6 +25,7 @@ router.get('/good', isLoggedIn, (req: any, res: any) => res.send(`Welcome mr ${r
 
 // SignIn and SignUp
 router.post('/signup', async (req: any, res: any, next: any) => {
+    await owner.AddOwnerUserPassword(req.body.name);
     passport.authenticate('signup', async (err: any, user: any, info: any) => {
         if (err) {
             console.log(err)
@@ -48,7 +41,7 @@ router.post('/signup', async (req: any, res: any, next: any) => {
         else
         {
             const token = jwt.sign({ owner: user }, secret, {
-                expiresIn: 60 * 60 * 24 // equivalente a 24 horas
+                expiresIn: 60 * 60 * 24 * 7 // equivalente a 7 dias
             })
             res.status(200)
             res.cookie('session', token)
@@ -59,7 +52,24 @@ router.post('/signup', async (req: any, res: any, next: any) => {
 );
 
 
+router.post('/confirm-authentication', async (req: any, res: any) => {
+    const info: any = await owner.Authenticate(req.query.authentication)
+    console.log(info)
+    if(info.status){
+        res.status(200);
+        res.cookie("session", info.token)
+        res.header("Access-Control-Allow-Session", info.token)
+        res.json(info.message);
+    }
+    else { 
+        res.status(404);
+        res.json(info.message);
+    }
+})
+
+
 router.post('/login', async (req: any, res: any, next: any) => {
+    await owner.AddOwnerUserPassword("");
     passport.authenticate('login', async (err: any, user: any, info: any) => {
         try {
             if (err) {

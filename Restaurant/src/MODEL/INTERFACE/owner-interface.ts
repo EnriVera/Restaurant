@@ -1,6 +1,7 @@
 interface IOwner {
-    SingUpOwner(email: string, password: string, done: any): any,
-    SingInOwner(email: string, password: string, done: any): any,
+    SingUpOwner(token: string): Promise<any>,
+    SingInOwner(email: string, password: string, done: any): Promise<any>,
+    sendMail(ownerObj: object, done: any): Promise<any>,
     AddOwnerGoogle(): any
 }
 

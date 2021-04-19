@@ -7,12 +7,12 @@ class Owner{
 
     constructor(private model: IOwner){}
 
-    public AddOwnerUserPassword (): any {
+    public AddOwnerUserPassword (name: string): void {
         passport.use('signup', new localStrategy({
             usernameField: 'email',
             passwordField: 'password'
         }, async (email: string, password: string, done: any) => {
-            await this.model.SingUpOwner(email, password, done)
+            await this.model.sendMail({email: email, password: password, name: name}, done)
         }))
         
         passport.use('login', new localStrategy({
@@ -23,7 +23,11 @@ class Owner{
         }))
     }
 
-    public AddOwnerGoogle(): any {
+    public async Authenticate(token: string): Promise<any> {
+        return await this.model.SingUpOwner(token)
+    }
+
+    public AddOwnerGoogle(): void {
         passport.serializeUser(function (user: any, done: any) {
             console.log("serializeUser: ", user)
             return done(null, user);
