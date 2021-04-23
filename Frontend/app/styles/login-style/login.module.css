@@ -1,0 +1,10 @@
+.containerfrom {
+  width: 60%;
+}
+
+@media (max-width: 414px) {
+  .containerfrom {
+    width: 67%;
+  }
+}
+/*# sourceMappingURL=login.module.css.map */
