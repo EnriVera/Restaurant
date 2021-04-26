@@ -70,15 +70,19 @@ class OwnerRepository implements IOwner {
         const owner: typeof EntityOwner.owner_smtp = await jwt.verify(token, SECRET_JWT).owner;
         const ownerSQL = await sequelize.query(` SELECT * FROM owner WHERE email = '${owner.email}';`);
         return new Promise(async (resolve, reject) => {
-            if (ownerSQL[1].rowCount > 0)
+            if (ownerSQL[1].rowCount > 0) {
                 resolve({ status: false, message: { message: 'Email not valid' } })
-            owner.password = await bcrypt.hash(owner.password, 10);
+            }
+            else {
+                if (owner.password !== undefined) owner.password = await bcrypt.hash(owner.password, 10);
 
-            const newtoken = await jwt.sign({ owner: owner }, SECRET_JWT)
+                const newtoken = await jwt.sign({ owner: owner }, SECRET_JWT)
 
-            await axios.post(`${SMTP}send-email`, { varible: varible }, { headers: { "token": newtoken } })
-                .then((data: any) => resolve({ status: true, message: { message: "Send Mail" } }))
-                .catch((data: any) => resolve({ status: false, message: { message: "Not Send Mail" } }))
+                await axios.post(`${SMTP}send-email`, { varible: varible }, { headers: { "token": newtoken } })
+                    .then((data: any) => resolve({ status: true, message: { message: "Send Mail" } }))
+                    .catch((data: any) => resolve({ status: false, message: { message: "Not Send Mail" } }))
+            }
+
         })
     }
 

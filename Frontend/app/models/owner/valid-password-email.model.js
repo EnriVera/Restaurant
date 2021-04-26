@@ -6,22 +6,26 @@ export default function Valid(user, tipe) {
     "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=-_])(?=\\S+$).{8,20}$";
 
   // validar email y password
-  if (mailformat.test(user.email) === false && tipe.m === true) {
-    toaster.danger("Email ingresado no valido", {
-      description:
-        'El email tiene que incluir los siguientes caracteres "@, gmail, .com"',
-      duration: 20,
-    });
-    return false;
+  if (tipe.m === true) {
+    if (mailformat.test(user.email) === false) {
+      toaster.danger("Email ingresado no valido", {
+        description:
+          'El email tiene que incluir los siguientes caracteres "@, gmail, .com"',
+        duration: 20,
+      });
+      return false;
+    }
   }
-  if (user.password.match(passwordformat) === null && tipe.p === true) {
-    toaster.danger("Password ingresado no valido", {
-      description:
-        "El Password tien que tener almenos un numero y un letra mayuscula, la cantidad de caracteres van de 8 a 20",
-      duration: 20,
-    });
+  if (tipe.p === true) {
+    if (user.password.match(passwordformat) === null) {
+      toaster.danger("Password ingresado no valido", {
+        description:
+          "El Password tien que tener almenos un numero y un letra mayuscula, la cantidad de caracteres van de 8 a 20",
+        duration: 20,
+      });
 
-    return false;
+      return false;
+    }
   }
 
   return true;
