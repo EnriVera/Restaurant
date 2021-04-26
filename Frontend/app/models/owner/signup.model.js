@@ -6,7 +6,7 @@ import axios from "axios";
 import Valid from "./valid-password-email.model"
 
 const EnviarInformacion = async (user, router) => {
-  const valid = Valid(user);
+  const valid = Valid(user, {m: true, p: true});
 
   if (!valid) return null;
 

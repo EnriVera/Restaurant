@@ -28,14 +28,14 @@ export default function SignIn_Component() {
             style={{ border: "2px solid rgb(54, 54, 54)" }}
             type="email"
             placeholder="Emial"
-            onChange={({ target }) => handleOnChange(target, 'email') }
+            onChange={({ target }) => handleOnChange(target.value, 'email') }
           ></input>
           <label>Password:</label>
           <input
             style={{ border: "2px solid rgb(54, 54, 54)" }}
             type="password"
             placeholder="Password"
-            onChange={({ target }) => handleOnChange(target, 'password') }
+            onChange={({ target }) => handleOnChange(target.value, 'password') }
           ></input>
           <span
             className={styles.forgot_password}

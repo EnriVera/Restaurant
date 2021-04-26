@@ -34,30 +34,36 @@ class OwnerRepository implements IOwner {
                 .then(() => emisor.emit('new-password-owner'))
                 .catch(() => resolve({ status: false, message: { message: 'Error in update' } }));
 
-                emisor.on('new-password-owner', async () => {
-                    resolve(await this.ReturnOwner(owner))
-                })
+            emisor.on('new-password-owner', async () => {
+                resolve(await this.ReturnOwner(owner))
+            })
         })
     }
 
-    public async SingInOwner(email: string, password: string, done: any): Promise<any> {
-        try {
-            const sqlowner = await sequelize.query(` SELECT * FROM owner WHERE email = '${email}';`);
-            if (sqlowner[1].rowCount === 0) {
-                return done(null, false, { message: 'User not found' })
+    public async SingInOwner(token: string): Promise<any> {
+        const owner: typeof EntityOwner.owner_smtp = await jwt.verify(token, SECRET_JWT).owner;
+        return await new Promise(async (resolve, reject) => {
+            const sql = await sequelize.query(` SELECT * FROM owner WHERE email = '${owner.email}';`);
+            if (sql[1].rowCount === 0) {
+                resolve({ status: false, message: { message: 'User not found' } })
             }
-            let owner: typeof EntityOwner.owner_no_restaurant = sqlowner[0][0];
+            else {
 
-            const validPassword = await bcrypt.compare(password, owner.password)
+                let sqlowner: typeof EntityOwner.owner_no_restaurant = sql[0][0];
 
-            if (!validPassword) {
-                return done(null, false, { message: 'Wrong password' })
+                const validPassword = await bcrypt.compare(owner.password, sqlowner.password)
+
+                if (!validPassword) {
+                    resolve({ status: false, message: { message: 'Wrong password' } })
+                }
+
+                const token = jwt.sign({ owner: sqlowner }, SECRET_JWT, {
+                    expiresIn: 60 * 60 * 24 * 7 // equivalente a 7 dias
+                })
+
+                resolve({ status: true, message: { message: 'SingIn successfull' }, token: token })
             }
-
-            return done(null, owner, { message: 'Login successfull' })
-        } catch (e) {
-            return done(e)
-        }
+        })
     }
 
     public async sendMail(varible: string, token: string): Promise<any> {
@@ -104,14 +110,14 @@ class OwnerRepository implements IOwner {
     public async ReturnOwner(owner: any): Promise<any> {
         return await new Promise(async (resolve, reject) => {
             await sequelize.query(`SELECT * FROM owner WHERE email = '${owner.email}';`)
-            .then((data: any) => {
-                const owner: typeof EntityOwner.owner_no_restaurant = data[0][0];
-                const token = jwt.sign({ owner: owner }, SECRET_JWT, {
-                    expiresIn: 60 * 60 * 24 * 7 // equivalente a 7 dias
+                .then((data: any) => {
+                    const owner: typeof EntityOwner.owner_no_restaurant = data[0][0];
+                    const token = jwt.sign({ owner: owner }, SECRET_JWT, {
+                        expiresIn: 60 * 60 * 24 * 7 // equivalente a 7 dias
+                    })
+                    resolve({ status: true, message: { message: 'SingUp successfull' }, token: token })
                 })
-                resolve({ status: true, message: { message: 'SingUp successfull' }, token: token })
-            })
-            .catch(() => { resolve({ status: false, message: { message: 'Error SingUp' } }) });
+                .catch(() => { resolve({ status: false, message: { message: 'Error SingUp' } }) });
         })
     }
 

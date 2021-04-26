@@ -12,61 +12,32 @@ class Owner{
 
     constructor(private model: IOwner){}
 
-    public AddOwnerUserPassword (name: string): void {
-        passport.use('signup', new localStrategy({
-            usernameField: 'email',
-            passwordField: 'password'
-        }, async (email: string, password: string, done: any) => {
-            // await this.model.sendMail("confirm_authentication", {email: email, password: password, name: name}, done)
-        }))
-        
-        passport.use('login', new localStrategy({
-            usernameField: 'email',
-            passwordField: 'password',
-        }, async (email: string, password: string, done: any) => {
-            await this.model.SingInOwner(email, password, done)
-        }))
-    }
-
-
     public async SingUpOwner(req: any, res: any) {
         const info: Tinfo = await this.model.sendMail("confirm_authentication", req.header("oauth"));
-        if(info.status){
-            res.status(200);
-            res.json(info.message);
-        }
-        else { 
-            res.status(404);
-            res.json(info.message);
-        }
+        this.SendNotToken(info, res)
     }
 
     public async SingInOwner(req: any, res: any) {
-        const info: Tinfo = await this.model.sendMail("confirm_authentication", req.header("oauth"));
-        if(info.status){
-            res.status(200);
-            res.json(info.message);
-        }
-        else { 
-            res.status(404);
-            res.json(info.message);
-        }
+        const info: Tinfo = await this.model.SingInOwner(req.header("oauth"));
+        await this.SendToken(info, res);
     }
 
     public async SendNewPasswordOwner(req: any, res: any) {
         const info: Tinfo = await this.model.sendMail("new_password", req.header("new-password"));
-        if(info.status){
-            res.status(200);
-            res.json(info.message);
-        }
-        else { 
-            res.status(404);
-            res.json(info.message);
-        }
+        this.SendNotToken(info, res)
     }
 
     public async NewPasswordOwner(req: any, res: any) {
         const info: Tinfo = await this.model.NewPassword(req.body.v)
+        this.SendToken(info, res);
+    }
+
+    public async Authenticate(req: any, res: any) {
+        const info = await this.model.SingUpOwner(req.query.authentication)
+        this.SendToken(info, res);
+    }
+
+    private async SendToken(info: any, res: any) {
         if(info.status){
             res.status(200);
             res.session = "Bearer"+info.token;
@@ -80,13 +51,9 @@ class Owner{
         }
     }
 
-    public async Authenticate(req: any, res: any): Promise<any> {
-        const info = await this.model.SingUpOwner(req.query.authentication)
+    private async SendNotToken(info: any, res: any) {
         if(info.status){
             res.status(200);
-            res.session = "Bearer"+info.token;
-            res.cookie("session", "Bearer"+info.token)
-            res.header("Access-Control-Allow-Session", "Bearer"+info.token)
             res.json(info.message);
         }
         else { 
