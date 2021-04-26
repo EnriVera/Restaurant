@@ -1,9 +1,21 @@
 .containerfrom {
   width: 60%;
 }
+.forgot_password {
+  color: #2c5282;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  cursor: pointer;
+}
 
 @media (max-width: 414px) {
-    .containerfrom {
-        width: 67%;
-      }
+  .containerfrom {
+    width: 67%;
+  }
+
+  .forgot_password {
+    font-size: 10px;
+  }
 }

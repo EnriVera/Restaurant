@@ -14,7 +14,10 @@ a {
   box-sizing: border-box;
 }
 
-p,label,input,button {
+p,
+label,
+input,
+button {
   font-family: -apple-system, Nunito;
 }
 
@@ -39,19 +42,29 @@ input {
   background-color: transparent;
 }
 
-button {
-  width: 40%;
-  background-color: rgb(107, 211, 107);
+input[type="submit"] {
+  width: 85%;
+  background-color: #04c35c;
+  color: #ffffff;
   border: none;
   border-radius: 5px;
-  margin: 20px auto;
-  padding: 0.5rem;
+  margin: 20px auto 10px auto;
+  padding: 15px 0 15px 0;
   cursor: pointer;
 }
 
+button {
+  width: 40%;
+  background-color: #04c35c;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  margin: 20px auto;
+  padding: 15px 134px;
+  cursor: pointer;
+}
 
 @media (max-width: 414px) {
-  
   label,
   input,
   button {

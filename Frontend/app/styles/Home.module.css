@@ -4,7 +4,7 @@
   height: 100vh;
   justify-content: center;
   align-items: center;
-  background: rgb(204, 213, 252);
+  background: #E5E5E5;
 }
 
 .login {
@@ -12,9 +12,10 @@
   background: rgb(245, 245, 245);
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
-  border-radius: 10px;
-  box-shadow: 0px 7px 23px 3px rgba(128, 128, 128, 0.75);
+  /* border-radius: 10px; */
+  /* box-shadow: 0px 7px 23px 3px rgba(128, 128, 128, 0.75); */
 }
 
 .login > h1 {

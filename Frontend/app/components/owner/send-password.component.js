@@ -12,7 +12,7 @@ export default function SendPassword_Component() {
         <form onSubmit={() => {}}>
           <label>Email:</label>
           <input style={{ border: "2px solid rgb(54, 54, 54)" }} type="email" placeholder="Email"></input>
-          <button>Continuar...</button>
+          <input type="submit" value="Continuar" />
         </form>
       </article>
     </>

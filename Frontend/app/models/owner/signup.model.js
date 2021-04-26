@@ -1,19 +1,38 @@
-import jw from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+import { toaster } from "evergreen-ui";
+import axios from "axios";
+// import getConfig from 'next/config'
 
-ValidarEmail = () => {
+import Valid from "./valid-password-email.model"
 
-}
+const EnviarInformacion = async (user, router) => {
+  const valid = Valid(user);
 
-ValidarPassword = () => {
+  if (!valid) return null;
 
-}
+  const owner = await jwt.sign(
+    {
+      owner: {
+        name: user.nombre,
+        email: user.email,
+        password: user.repirtPassword,
+      },
+    },
+    process.env.secret_jwt
+  );
 
-ValidarRepetirPassword = () => {
+  await axios
+    .post(
+      `${process.env.url_restaurant}owner/signup`,
+      {},
+      { headers: { oauth: owner } }
+    )
+    .then(() => router.push("/email-authorization"))
+    .catch(() =>
+      toaster.danger("😔 Ocurio un problema", {
+        description: "Verifique su coneccion a internet, o intente mas tarde",
+      })
+    );
+};
 
-}
-
-EnviarInformacion = () => {
-
-}
-
-export default {ValidarEmail, ValidarPassword, ValidarRepetirPassword, EnviarInformacion}
+module.exports = { EnviarInformacion };

@@ -13,7 +13,7 @@ export default function NewPassword_Component() {
             <input style={{ border: "2px solid rgb(54, 54, 54)" }} type="password" placeholder="Password"></input>
             <label>Repetir Password:</label>
             <input style={{ border: "2px solid rgb(54, 54, 54)" }} type="password" placeholder="Repetir Password"></input>
-            <button>Continuar...</button>
+            <input type="submit" value="Continuar" />
           </form>
         </article>
       </>
