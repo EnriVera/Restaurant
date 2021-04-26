@@ -18,54 +18,44 @@ const isLoggedIn = (req: any, res: any, next: any) => {
 }
 
 router.get('/', (req: any, res: any) => res.send('Express + TypeScript Server'));
-router.get('/failed', (req: any, res: any) => res.send('You Failed to log in!'))
-
-// In this route you can see that if the user is logged in u can acess his info in: req.user
-router.get('/good', isLoggedIn, (req: any, res: any) => res.send(`Welcome mr ${req.user.displayName}!`))
 
 // SignIn and SignUp
-router.post('/signup', async (req: any, res: any, next: any) => {
-    await owner.AddOwnerUserPassword(req.body.name);
-    passport.authenticate('signup', async (err: any, user: any, info: any) => {
-        if (err) {
-            console.log(err)
-            const error = new Error('new Error')
-            return next(error)
-        }
+// router.post('/signup', async (req: any, res: any, next: any) => {
+//     await owner.AddOwnerUserPassword(req.body.name);
+//     passport.authenticate('signup', async (err: any, user: any, info: any) => {
+//         if (err) {
+//             console.log(err)
+//             const error = new Error('new Error')
+//             return next(error)
+//         }
 
-        if(!user)
-        {
-            res.status(404)
-            res.json(info)
-        }
-        else
-        {
-            const token = jwt.sign({ owner: user }, secret, {
-                expiresIn: 60 * 60 * 24 * 7 // equivalente a 7 dias
-            })
-            res.status(200)
-            res.cookie('session', token)
-            res.json(info)
-        }
-    })(req, res, next)
-}
-);
+//         if(!user)
+//         {
+//             res.status(404)
+//             res.json(info)
+//         }
+//         else
+//         {
+//             const token = jwt.sign({ owner: user }, secret, {
+//                 expiresIn: 60 * 60 * 24 * 7 // equivalente a 7 dias
+//             })
+//             res.status(200)
+//             res.cookie('session', token)
+//             res.json(info)
+//         }
+//     })(req, res, next)
+// }
+// );
 
+router.post('/signup', async (req: any, res: any) => await owner.SingUpOwner(req, res))
 
-router.post('/confirm-authentication', async (req: any, res: any) => {
-    const info: any = await owner.Authenticate(req.query.authentication)
-    console.log(info)
-    if(info.status){
-        res.status(200);
-        res.cookie("session", info.token)
-        res.header("Access-Control-Allow-Session", info.token)
-        res.json(info.message);
-    }
-    else { 
-        res.status(404);
-        res.json(info.message);
-    }
-})
+router.post('/signin', async (req: any, res: any) => await owner.SingInOwner(req, res))
+
+router.post('/confirm-authentication', async (req: any, res: any) => await owner.Authenticate(req, res))
+
+router.post('/send-password', async (req: any, res: any) => await owner.SendNewPasswordOwner(req, res))
+
+router.post('/new-password', async (req: any, res: any) => await owner.NewPasswordOwner(req, res))
 
 
 router.post('/login', async (req: any, res: any, next: any) => {
@@ -105,9 +95,9 @@ router.post('/login', async (req: any, res: any, next: any) => {
 // OAuth con google
 router.get('/google', passport.authenticate('google', { scope: ["profile", "email"] }));
 
-router.get('/google/OAuth', passport.authenticate('google', { failureRedirect: '/owner/failed' }),
+router.get('/google/OAuth', passport.authenticate('google', { failureRedirect: 'http://localhost:3000/' }),
     function (req: any, res:any) {
-        res.redirect('/owner/good');
+        res.redirect('http://localhost:3000/home');
     }
 );
 

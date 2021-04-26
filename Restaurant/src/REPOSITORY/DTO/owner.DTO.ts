@@ -8,9 +8,12 @@ const Owner = () => {
         CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
         create table owner(
             id uuid primary key not null,
-            name varchar(15),
-            email varchar(100),
-            password varchar
+            name varchar(15) not null,
+            email varchar(100) not null,
+            password varchar,
+            logo varchar,
+            googleID varchar,
+            googleVerified boolean
         );
         `)
     });

@@ -37,7 +37,7 @@ class SMTPController {
     }
 
     public async message(varible: string, token: string): Promise<Object>{
-        const {URL,SECRET_JWT} = process.env;
+        const {URL_WEB, URL_SERVER_RESTAURANT, SECRET_JWT} = process.env;
         const infoOwner: smtpOwner = await jwt.verify(token, SECRET_JWT).owner
         switch (varible)
         {
@@ -60,15 +60,37 @@ class SMTPController {
                             Click on the link to confirm the authentication:
                         </h3>
                         </br>
-                        <a href="${URL}owner/confirm-authentication?authentication=${token}">
+                        <a href="${URL_SERVER_RESTAURANT}owner/confirm-authentication?authentication=${token}">
                             Confirm Authentication
                         </a>
                     </div>
                     `
                 };
-                break;
-            default:
-                break;
+            case "new_password":
+                return {
+                    from: 'Sender Name <veracarlosenrique99@gmail.com>',
+                    to: `Recipient <${infoOwner.email}>`,
+                    subject: 'New Password',
+                    text: `Hello to ${infoOwner.name}!`,
+                    html: `
+                    <div>
+                        <h1>
+                            <b>
+                                Hello
+                            </b>
+                            ${infoOwner.name}!
+                        </h1>
+                        </br>
+                        <h3>
+                            Click on the link to new password:
+                        </h3>
+                        </br>
+                        <a href="${URL_WEB}new-password/${token}">
+                            New Password
+                        </a>
+                    </div>
+                    `
+                };
         }
     }
 }

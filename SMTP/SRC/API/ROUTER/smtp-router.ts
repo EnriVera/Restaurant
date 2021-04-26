@@ -5,14 +5,14 @@ const router = express.Router();
 const smtp = new SMTPController();
 
 router.post('/send-email', async (req, res) => {
-    const respon: any = await smtp.SendEmail(req.body.varible, req.header("verifytoken"))
+    const respon: any = await smtp.SendEmail(req.body.varible, req.header("token"))
     if(respon){
         res.status(200)
-        res.json({message: "Send Mail"})
+        res.json({})
     }
     else { 
         res.status(404)
-        res.json({message: "Not Send Mail"})
+        res.json({})
     }
 })
 
