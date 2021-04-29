@@ -28,8 +28,8 @@ class Owner{
     }
 
     public async NewPasswordOwner(req: any, res: any) {
-        const info: Tinfo = await this.model.NewPassword(req.body.v)
-        this.SendToken(info, res);
+        const info: Tinfo = await this.model.NewPassword(req.query.v, req.header("new-password"))
+        this.SendNotToken(info, res);
     }
 
     public async Authenticate(req: any, res: any) {

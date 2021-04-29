@@ -85,7 +85,7 @@ class SMTPController {
                             Click on the link to new password:
                         </h3>
                         </br>
-                        <a href="${URL_WEB}new-password/${token}">
+                        <a href="${URL_WEB}new-password/user?v=${token}">
                             New Password
                         </a>
                     </div>

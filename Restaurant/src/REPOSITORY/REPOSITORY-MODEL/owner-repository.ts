@@ -27,17 +27,23 @@ class OwnerRepository implements IOwner {
         })
     }
 
-    public async NewPassword(token: string): Promise<any> {
-        const owner: typeof EntityOwner.owner_smtp = await jwt.verify(token, SECRET_JWT).owner;
-        return await new Promise((resolve, reject) => {
-            sequelize.query(`UPDATE owner SET password='${owner.password}' WHERE email = '${owner.email}'`)
-                .then(() => emisor.emit('new-password-owner'))
-                .catch(() => resolve({ status: false, message: { message: 'Error in update' } }));
-
-            emisor.on('new-password-owner', async () => {
-                resolve(await this.ReturnOwner(owner))
+    public async NewPassword(tokenUser: string, tokenPassword: string): Promise<any> {
+        try{
+            const owner: typeof EntityOwner.owner_smtp = await jwt.verify(tokenUser, SECRET_JWT).owner;
+            const password: typeof EntityOwner.owner_smtp = await jwt.verify(tokenPassword, SECRET_JWT).owner;
+            return await new Promise((resolve, reject) => {
+                sequelize.query(`UPDATE owner SET password='${password.password}' WHERE email = '${owner.email}'`)
+                    .then(() => emisor.emit('new-password-owner'))
+                    .catch(() => resolve({ status: false, message: { message: 'Error in update' } }));
+    
+                emisor.on('new-password-owner', async () => {
+                    resolve(await this.ReturnOwner(owner))
+                })
             })
-        })
+        }
+        catch (error){
+            return { status: false, message: { message: 'Error info of user' } }
+        }
     }
 
     public async SingInOwner(token: string): Promise<any> {
