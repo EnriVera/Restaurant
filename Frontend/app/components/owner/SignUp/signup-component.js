@@ -3,10 +3,10 @@ import { useRouter } from "next/router";
 import { toaster } from "evergreen-ui";
 
 // styles
-import styles from "../../styles/login-style/login.module.css";
+const { ContainerFrom, ForgotPassword, Input} = require("./styles/signup.styles");
 
 //modules
-const { EnviarInformacion } = require("../../models/owner/signup.model");
+const { EnviarInformacion } = require("../../../models/owner/signup.model");
 
 export default function SignUp_Component() {
   const router = useRouter();
@@ -31,7 +31,7 @@ export default function SignUp_Component() {
   };
   return (
     <>
-      <div className={styles.containerfrom}>
+      <div className={ContainerFrom}>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -39,40 +39,35 @@ export default function SignUp_Component() {
           }}
         >
           <label>Nombre completo:</label>
-          <input
-            style={{ border: "2px solid rgb(54, 54, 54)" }}
+          <Input
             type="text"
             placeholder="Nombre completo"
             onChange={({ target }) => handleOnChange(target.value, "nombre")}
           />
           <label>Email:</label>
-          <input
-            style={{ border: "2px solid rgb(54, 54, 54)" }}
+          <Input
             type="email"
             placeholder="Emial"
             onChange={({ target }) => handleOnChange(target.value, "email")}
           />
           <label>Password:</label>
-          <input
-            style={{ border: "2px solid rgb(54, 54, 54)" }}
+          <Input
             type="password"
             placeholder="Password"
             onChange={({ target }) => handleOnChange(target.value, "password")}
           />
           <label>Repetir Password:</label>
-          <input
-            style={{ border: "2px solid rgb(54, 54, 54)" }}
+          <Input
             type="password"
             placeholder="Repetir Password"
             onChange={({ target }) => ValidarRepetirPassword(target.value)}
           />
-          <span
-            className={styles.forgot_password}
+          <ForgotPassword
             onClick={() => router.push("/send-password")}
           >
             Forgot password?
-          </span>
-          <input type="submit" value="Iniciar secion ahora" />
+          </ForgotPassword>
+          <Input type="submit" value="Iniciar secion ahora" />
         </form>
       </div>
     </>

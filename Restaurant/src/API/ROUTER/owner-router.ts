@@ -7,7 +7,7 @@ const router = express.Router();
 
 const owner = new Owner(new OwnerRepository());
 owner.AddOwnerGoogle();
-const secret = process.env.SECRET_JWT
+const { ACSESS_URL } = process.env;
 
 const isLoggedIn = (req: any, res: any, next: any) => {
     if (req.user) {
@@ -23,7 +23,7 @@ router.post('/signup', async (req: any, res: any) => await owner.SingUpOwner(req
 
 router.post('/signin', async (req: any, res: any) => await owner.SingInOwner(req, res))
 
-router.post('/confirm-authentication', async (req: any, res: any) => await owner.Authenticate(req, res))
+router.get('/confirm-authentication', async (req: any, res: any) => await owner.Authenticate(req, res))
 
 router.post('/send-password', async (req: any, res: any) => await owner.SendNewPasswordOwner(req, res))
 
@@ -32,9 +32,11 @@ router.post('/new-password', async (req: any, res: any) => await owner.NewPasswo
 // OAuth con google
 router.get('/google', passport.authenticate('google', { scope: ["profile", "email"] }));
 
-router.get('/google/OAuth', passport.authenticate('google', { failureRedirect: 'http://localhost:3000/' }),
+router.get('/google/OAuth', passport.authenticate('google', { failureRedirect: ACSESS_URL }),
     function (req: any, res:any) {
-        res.redirect('http://localhost:3000/home');
+        res.status(302);
+        req.session.restaurantSession = req.user
+        res.redirect(`${ACSESS_URL}/dashboard`);
     }
 );
 

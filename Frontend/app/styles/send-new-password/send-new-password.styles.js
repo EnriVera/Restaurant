@@ -1,4 +1,6 @@
-.password {
+import styled from "@emotion/styled";
+
+const SectionPassword = styled.section`
   width: 50vh;
   background: #edf2f7;
   display: flex;
@@ -20,17 +22,13 @@
       width: 100%;
     }
   }
-}
 
-@media (max-width: 700px) {
-  .password {
+  @media (max-width: 700px) {
     width: 100%;
     height: 100%;
   }
-}
 
-@media (max-width: 414px) {
-  .password {
+  @media (max-width: 414px) {
     article > div {
       h1 {
         font-size: 130%;
@@ -42,10 +40,8 @@
       }
     }
   }
-}
 
-@media (max-width: 370px) {
-  .password {
+  @media (max-width: 370px) {
     article > div {
       h1 {
         font-size: 15px;
@@ -57,4 +53,6 @@
       }
     }
   }
-}
+`;
+
+module.exports = { SectionPassword };

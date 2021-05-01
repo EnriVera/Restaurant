@@ -1,17 +1,17 @@
 // styles
-import stylesSendPassword from "../../styles/send-new-password-style/send-new-password.module.css";
+import { SectionPassword } from "../../styles/send-new-password/send-new-password.styles";
 
 // components
-import SendPassword_Component from "../../components/owner/send-password.component";
+import SendPassword_Component from "../../components/owner/SendPassword/send-password.component";
 import Head_Main from "../../components/head-main";
 
 export default function SendPassword() {
   return (
     <>
       <Head_Main>
-        <secion className={stylesSendPassword.password}>
+        <SectionPassword>
           <SendPassword_Component />
-        </secion>
+        </SectionPassword>
       </Head_Main>
     </>
   );

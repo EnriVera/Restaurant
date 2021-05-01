@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const {SendEmail} = require("../../models/owner/send-email.model")
+const {SendEmail} = require("../../../models/owner/send-email.model")
 export default function SendPassword_Component() {
   const [user, setUser] = useState({
     email: "",

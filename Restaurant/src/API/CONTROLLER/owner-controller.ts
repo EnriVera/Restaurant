@@ -1,5 +1,4 @@
 const passport = require('passport');
-const localStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 import IOwner from '../../MODEL/INTERFACE/owner-interface';
 
@@ -19,7 +18,7 @@ class Owner{
 
     public async SingInOwner(req: any, res: any) {
         const info: Tinfo = await this.model.SingInOwner(req.header("oauth"));
-        await this.SendToken(info, res);
+        await this.SendToken(info, req, res);
     }
 
     public async SendNewPasswordOwner(req: any, res: any) {
@@ -34,15 +33,14 @@ class Owner{
 
     public async Authenticate(req: any, res: any) {
         const info = await this.model.SingUpOwner(req.query.authentication)
-        this.SendToken(info, res);
+        this.SendToken(info, req, res);
     }
 
-    private async SendToken(info: any, res: any) {
+    private async SendToken(info: any, req: any, res: any) {
         if(info.status){
             res.status(200);
-            res.session = "Bearer"+info.token;
-            res.cookie("session", "Bearer"+info.token)
-            res.header("Access-Control-Allow-Session", "Bearer"+info.token)
+            /* Bearer */
+            req.session.restaurantSession = info.token
             res.json(info.message);
         }
         else { 
@@ -64,12 +62,10 @@ class Owner{
 
     public AddOwnerGoogle(): void {
         passport.serializeUser(function (user: any, done: any) {
-            console.log("serializeUser: ", user)
             return done(null, user);
         });
 
         passport.deserializeUser(function (user: any, done: any) {
-            console.log("deserializeUser: ", user)
             return done(null, user);
         });
 

@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 
-import styles from "../../styles/login-style/login.module.css";
+//styles
+const { ContainerFrom, ForgotPassword, Input } = require("./styles/signin.styles");
 
-const {SignIn} = require("../../models/owner/signin.model");
+//model
+const {SignIn} = require("../../../models/owner/signin.model");
 
 export default function SignIn_Component() {
   const router = useRouter();
@@ -21,29 +23,28 @@ export default function SignIn_Component() {
   };
   return (
     <>
-      <div className={styles.containerfrom}>
+      <div className={ContainerFrom}>
         <form onSubmit={(e) => {e.preventDefault(); SignIn(user, router);}}>
           <label>Email:</label>
-          <input
+          <Input
             style={{ border: "2px solid rgb(54, 54, 54)" }}
             type="email"
             placeholder="Emial"
             onChange={({ target }) => handleOnChange(target.value, 'email') }
-          ></input>
+          />
           <label>Password:</label>
-          <input
-            style={{ border: "2px solid rgb(54, 54, 54)" }}
+          <Input
             type="password"
             placeholder="Password"
             onChange={({ target }) => handleOnChange(target.value, 'password') }
-          ></input>
+          />
           <span
-            className={styles.forgot_password}
+            className={ForgotPassword}
             onClick={() => router.push("/send-password")}
           >
             Forgot password?
           </span>
-          <input type="submit" value="Iniciar secion ahora" />
+          <Input type="submit" value="Iniciar secion ahora" />
         </form>
       </div>
     </>

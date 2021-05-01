@@ -6,7 +6,7 @@ import axios from "axios";
 import Valid from "./valid-password-email.model";
 
 const SignIn = async (user, router) => {
-  const valid = Valid(user, {m: true, p: true});
+  const valid = Valid(user, {m: true, p: false});
 
   if (!valid) return null;
 
@@ -19,7 +19,7 @@ const SignIn = async (user, router) => {
     },
     process.env.secret_jwt
   );
-
+  
   await axios
     .post(
       `${process.env.url_restaurant}owner/signin`,

@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import { toaster } from "evergreen-ui";
 
-const {NewPasswordModel} = require("../../models/owner/new-password.model");
+const {NewPasswordModel} = require("../../../models/owner/new-password.model");
 
 export default function NewPassword_Component({ token }) {
   const [user, setUser] = useState({
     password: "",
     repirtPassword: "",
   });
-  useEffect(() => {console.log(token);}, [token])
   const handleOnChange = (data, camp) => {
     setUser({
       ...user,

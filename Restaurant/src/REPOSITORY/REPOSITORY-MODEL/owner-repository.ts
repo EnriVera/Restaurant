@@ -31,8 +31,8 @@ class OwnerRepository implements IOwner {
         try{
             const owner: typeof EntityOwner.owner_smtp = await jwt.verify(tokenUser, SECRET_JWT).owner;
             const password: typeof EntityOwner.owner_smtp = await jwt.verify(tokenPassword, SECRET_JWT).owner;
-            return await new Promise((resolve, reject) => {
-                sequelize.query(`UPDATE owner SET password='${password.password}' WHERE email = '${owner.email}'`)
+            return await new Promise(async (resolve, reject) => {
+                sequelize.query(`UPDATE owner SET password='${await bcrypt.hash(password.password, 10)}' WHERE email = '${owner.email}'`)
                     .then(() => emisor.emit('new-password-owner'))
                     .catch(() => resolve({ status: false, message: { message: 'Error in update' } }));
     
@@ -57,6 +57,10 @@ class OwnerRepository implements IOwner {
 
                 let sqlowner: typeof EntityOwner.owner_no_restaurant = sql[0][0];
 
+                if (sqlowner.password === null) {
+                    resolve({ status: false, message: { message: 'Wrong password' } })
+                }
+
                 const validPassword = await bcrypt.compare(owner.password, sqlowner.password)
 
                 if (!validPassword) {
@@ -76,7 +80,7 @@ class OwnerRepository implements IOwner {
         const owner: typeof EntityOwner.owner_smtp = await jwt.verify(token, SECRET_JWT).owner;
         const ownerSQL = await sequelize.query(` SELECT * FROM owner WHERE email = '${owner.email}';`);
         return new Promise(async (resolve, reject) => {
-            if (ownerSQL[1].rowCount > 0) {
+            if (ownerSQL[1].rowCount > 0 && varible !== "new_password") {
                 resolve({ status: false, message: { message: 'Email not valid' } })
             }
             else {
@@ -95,25 +99,26 @@ class OwnerRepository implements IOwner {
     public async OwnerGoogle(user_google: typeof EntityOwner.google, done: any): Promise<void> {
         const user: typeof EntityOwner.google = user_google;
         const ownerSQL = await sequelize.query(` SELECT * FROM owner WHERE email = '${user.email}';`);
+        emisor.on('googleOwner', async () => {
+            const info = await this.ReturnOwner(user)
+            info.status ? done(null, info.token, info.message) : done(null, false, info.message)
+        });
         if (ownerSQL[1].rowCount > 0) {
             let owner: typeof EntityOwner.owner_no_restaurant = ownerSQL[0][0];
-            if (owner.googleVerified === false) {
-                sequelize.query(`UPDATE owner SET logo = '${owner.logo}', googleID = '${owner.googleID}', googleVerified = ${owner.googleVerified} WHERE email = '${owner.email}'`)
+            if (owner.googleverified === null) {
+                sequelize.query(`UPDATE owner SET logo = '${user.photo}', googleID = '${user.id}', googleVerified = ${user.verified} WHERE email = '${owner.email}'`)
                     .then(() => emisor.emit('googleOwner'))
                     .catch(() => done(null, false, { message: 'Error in update' }))
             }
-            else { emisor.emit('googleOwner') }
+            else { 
+                return await emisor.emit('googleOwner') 
+            }
         }
         else {
             sequelize.query(`INSERT INTO owner(id, name, email, logo, googleID, googleVerified) VALUES (uuid_generate_v4(), '${user.displayName}', '${user.email}', '${user.photo}', '${user.id}', '${user.verified}');`)
                 .then(() => emisor.emit('googleOwner'))
                 .catch(() => { done(null, false, { message: 'Insert not complete' }) });
         }
-
-        emisor.on('googleOwner', async () => {
-            const info = await this.ReturnOwner(user)
-            info.status ? done(null, info.token, info.message) : done(null, false, info.message)
-        })
     }
 
 

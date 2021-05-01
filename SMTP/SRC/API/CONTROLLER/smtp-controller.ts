@@ -60,7 +60,7 @@ class SMTPController {
                             Click on the link to confirm the authentication:
                         </h3>
                         </br>
-                        <a href="${URL_SERVER_RESTAURANT}owner/confirm-authentication?authentication=${token}">
+                        <a href="${URL_WEB}email-valit-authorization/user?authentication=${token}">
                             Confirm Authentication
                         </a>
                     </div>

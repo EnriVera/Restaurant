@@ -6,6 +6,7 @@ const morgan = require("morgan");
 const passport = require('passport')
 const helmet = require("helmet");
 const cookieSession = require('cookie-session')
+const cookieParser = require('cookie-parser')
 const cors = require('cors')
 import SequelizeInit from "./REPOSITORY/DTO/sequelize/sequelize-init";
 // import rutes
@@ -29,10 +30,26 @@ var corsOptionsDelegate = function (req: any, callback: any) {
 }
 
 //middelware
+app.use(cookieParser())
+// app.use(session({
+//   name: 'restaurant',
+//   secret: process.env.KEY_SESSION,
+//   resave: false,
+//   saveUninitialized: false,
+//   cookie: { 
+//     maxAge: 1000 * 60 * 60 * 24 * 7 ,
+//     sameSite: true,
+//     secure: true 
+//   }
+// }))
+
 app.use(cookieSession({
-    name: 'restaurant-session',
-    keys: ['key1', 'key2']
-  }))
+  name: 'restaurantSession',
+  keys: [process.env.KEY_SESSION],
+
+  // Cookie Options
+  maxAge: 7 * 24 * 60 * 60 * 1000
+}))
 app.use(morgan("tiny"));
 app.use(helmet());
 app.use(bodyparser.urlencoded({extended:false}));

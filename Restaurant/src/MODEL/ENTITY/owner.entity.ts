@@ -8,8 +8,8 @@ type Towner_json = {
     email: string,
     password: string,
     logo: string,
-    googleID: string,
-    googleVerified: boolean,
+    googleid: string,
+    googleverified: boolean,
     restaurant: Array<Restaurant>
 };
 
@@ -19,8 +19,8 @@ type Towner_no_restaurant = {
     email: string,
     password: string,
     logo: string,
-    googleID: string,
-    googleVerified: boolean
+    googleid: string,
+    googleverified: boolean
 };
 
 type Towner_smtp = {
@@ -45,8 +45,8 @@ const owner_json: Towner_json = {
     email: "",
     password: "",
     logo: "",
-    googleID: "",
-    googleVerified: false,
+    googleid: "",
+    googleverified: false,
     restaurant: []
 };
 const owner_smtp: Towner_smtp = {
@@ -61,8 +61,8 @@ const owner_no_restaurant: Towner_no_restaurant = {
     email: "",
     password: "",
     logo: "",
-    googleID: "",
-    googleVerified: false
+    googleid: "",
+    googleverified: false
 };
 
 const google: Tgoogle = {

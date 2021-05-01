@@ -17,7 +17,6 @@ const NewPasswordModel = async (password, token) => {
       },
       process.env.secret_jwt
     );
-    console.log(token[0])
     await axios
       .post(
         `${process.env.url_restaurant}owner/new-password?v=${token[0]}`,
