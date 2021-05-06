@@ -25,7 +25,7 @@ export default function EmailValitAuthorization() {
             Su cuanta se ha registrado con exitos. Ha continuacion precione el boton de 'Acceder al Dashboard' para ingresar a la aplicacion.
           </p>
           {
-            valit && <input type="submit" value="Acceder al Dashboard" />
+            valit && <input type='submit' onClick={() => router.push('/dashboard')} value="Acceder al Dashboard" />
           }
         </Div>
       </Head_Main>

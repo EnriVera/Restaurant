@@ -1,8 +1,8 @@
-
+import NavComponents from '../../components/navbar/nav/nav.component';
 export default function Dashboard () {
     return (
         <>
-            <h1>Dashboard</h1>
+            <NavComponents />
         </>
     )
 }
