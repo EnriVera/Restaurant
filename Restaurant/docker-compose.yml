@@ -8,4 +8,4 @@ services:
     ports:
       - 4789:4789
     volumes:
-      - .:/user/src/app
+      - .:/user/backend/restaurant

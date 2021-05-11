@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import { toaster } from "evergreen-ui";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 // import getConfig from 'next/config'
 
 import Valid from "./valid-password-email.model";
@@ -24,9 +25,13 @@ const SignIn = async (user, router) => {
     .post(
       `${process.env.url_restaurant}owner/signin`,
       {},
-      { headers: { oauth: owner } }
+      // { headers: { oauth: owner } }
+      { withCredentials: true, headers: { oauth: owner }}
     )
-    .then(() => router.push("/dashboard"))
+    .then((e) => {
+      console.log(e)
+      router.push("/dashboard")
+    })
     .catch((e) => {
       if (e.response.status === 500) {
         toaster.danger("😔 Ocurio un problema", {

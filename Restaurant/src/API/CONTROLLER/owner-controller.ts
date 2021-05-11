@@ -1,6 +1,8 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 import IOwner from '../../MODEL/INTERFACE/owner-interface';
+import {owner_json} from "../../MODEL/ENTITY/owner.entity"
+import OwnerRepository from "../../REPOSITORY/REPOSITORY-MODEL/owner-repository"
 
 interface Tinfo {
     status: boolean,
@@ -9,8 +11,17 @@ interface Tinfo {
 }
 class Owner{
 
-    constructor(private model: IOwner){}
+    public model: IOwner = new OwnerRepository();
 
+    public async ValidateUser(req: any, res: any, next: any) {
+        console.log(req.session);
+        res.json({message: "True"})
+        // if (req.user) {
+        //     next();
+        // } else {
+        //     res.sendStatus(401);
+        // }
+    }
     public async SingUpOwner(req: any, res: any) {
         const info: Tinfo = await this.model.sendMail("confirm_authentication", req.header("oauth"));
         this.SendNotToken(info, res)
@@ -22,26 +33,26 @@ class Owner{
     }
 
     public async SendNewPasswordOwner(req: any, res: any) {
-        const info: Tinfo = await this.model.sendMail("new_password", req.header("new-password"));
+        const info: Tinfo = await this.model?.sendMail("new_password", req.header("new-password"));
         this.SendNotToken(info, res)
     }
 
     public async NewPasswordOwner(req: any, res: any) {
-        const info: Tinfo = await this.model.NewPassword(req.query.v, req.header("new-password"))
+        const info: Tinfo = await this.model?.NewPassword(req.query.v, req.header("new-password"))
         this.SendNotToken(info, res);
     }
 
     public async Authenticate(req: any, res: any) {
-        const info = await this.model.SingUpOwner(req.query.authentication)
+        const info = await this.model?.SingUpOwner(req.query.authentication)
         this.SendToken(info, req, res);
     }
 
     private async SendToken(info: any, req: any, res: any) {
         if(info.status){
-            res.status(200);
             /* Bearer */
-            req.session.restaurantSession = info.token
-            res.json(info.message);
+            req.session.user = `${info.token}`
+            const jsonToken: owner_json = info.token
+            res.status(200).cookie('Authorization', `Bearer ${jsonToken}`).send(info.message)
         }
         else { 
             res.status(404);
@@ -75,7 +86,7 @@ class Owner{
             callbackURL: process.env.OAUTH_URL
         },
             async  (token: any, tokenSecret: any, profile: any, done: any) => {
-                return await this.model.OwnerGoogle(
+                return await this.model?.OwnerGoogle(
                     {
                         id: profile.id, 
                         displayName: profile.displayName, 

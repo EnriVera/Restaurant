@@ -11,4 +11,4 @@ services:
         - POSTGRES_USER=restaurant
         - POSTGRES_PASSWORD=rSUzRBlj4Sbi8625QHilqiCmcuMax2
         volumes:
-            - .:/user/postgres
+            - .:/user/bd/postgres

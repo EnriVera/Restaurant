@@ -1,19 +1,11 @@
-import {Observable} from "rxjs";
-import Restaurant from "./restaurant-entity"
-
-// Types
-type Towner_json = {
+export type owner_json = {
     id: string,
     name: string,
     email: string,
-    password: string,
-    logo: string,
-    googleid: string,
-    googleverified: boolean,
-    restaurant: Array<Restaurant>
+    logo: string
 };
 
-type Towner_no_restaurant = {
+export type owner = {
     id: string,
     name: string,
     email: string,
@@ -23,54 +15,16 @@ type Towner_no_restaurant = {
     googleverified: boolean
 };
 
-type Towner_smtp = {
+export type owner_smtp = {
     name: string,
     email: string,
     password: string,
 };
 
-type Tgoogle = {
+export type google = {
     id: string,
     displayName: string,
     email: string,
     verified: boolean,
     photo: string
 };
-
-// entity
-
-const owner_json: Towner_json = {
-    id: "",
-    name: "",
-    email: "",
-    password: "",
-    logo: "",
-    googleid: "",
-    googleverified: false,
-    restaurant: []
-};
-const owner_smtp: Towner_smtp = {
-    name: "",
-    email: "",
-    password: ""
-};
-
-const owner_no_restaurant: Towner_no_restaurant = {
-    id: "",
-    name: "",
-    email: "",
-    password: "",
-    logo: "",
-    googleid: "",
-    googleverified: false
-};
-
-const google: Tgoogle = {
-    id: "",
-    displayName: "",
-    email: "",
-    verified: false,
-    photo: ""
-}
-
-export default {owner_json, owner_smtp, owner_no_restaurant, google};

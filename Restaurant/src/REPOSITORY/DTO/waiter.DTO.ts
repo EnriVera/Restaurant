@@ -8,7 +8,9 @@ const Waiter = () => {
         create table waiter(
             id uuid primary key not null,
             name varchar(12) not null ,
-            number_mozo varchar not null
+            number_mozo varchar not null,
+            id_restaurant uuid not null,
+            foreign key (id_restaurant) references restaurant (id)
         );
         `);
     });

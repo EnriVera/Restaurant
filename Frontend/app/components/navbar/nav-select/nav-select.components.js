@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { ActiveRestaurantAction } from "../../../reducers/restaurant.reducer";
 const {
   ArticleNavButton,
   DivSelect,
@@ -8,44 +11,54 @@ const {
 
 import { ChevronDownIcon, ChevronUpIcon } from "evergreen-ui";
 export default function NavSelect() {
+  const dispatch = useDispatch();
   const [select, setSelect] = useState(false);
-  const [valueSelect, setValueSelect] = useState({
-    id: "none",
-    name: "None",
-  });
+  // const [valueSelect, setValueSelect] = useState({
+  //   id: "none",
+  //   name: "None",
+  //   count_tables: "0",
+  //   count_waiters: "0",
+  //   waiters_working: "0",
+  // });
+  const valueSelect = useSelector((store) => store.restaurant.active);
+  const allRestaurant = useSelector((store) => store.restaurant.array);
+
   const ValueSelect = (restaurant) => {
     setSelect(!select);
-    setValueSelect(restaurant);
+    dispatch(ActiveRestaurantAction(restaurant.id));
   };
+
   return (
     <>
       <ArticleNavButton>
         <DivSelect onClick={() => setSelect(!select)}>
-          <h5>{valueSelect.name}</h5>
+          <h5>{valueSelect.name || "None"}</h5>
           {(!select && <Icon icon={ChevronDownIcon} size={12} />) || (
             <Icon icon={ChevronUpIcon} size={12} />
           )}
         </DivSelect>
         {select && (
           <DivModalSelect>
-            {valueSelect.id !== "1" && (
-              <div onClick={() => ValueSelect({ id: "1", name: "Resta1" })}>
-                <h5>Resta1</h5>
-              </div>
-            )}
-            {valueSelect.id !== "2" && (
-              <div onClick={() => ValueSelect({ id: "2", name: "El Resta 1" })}>
-                <h5>El Resta 1</h5>
-              </div>
-            )}
-            {valueSelect.id !== "3" && (
-              <div onClick={() => ValueSelect({ id: "3", name: "ELll Re" })}>
-                <h5>ELll Re</h5>
-              </div>
-            )}
-            {valueSelect.id !== "4" && (
-              <div onClick={() => ValueSelect({ id: "4", name: "Pepe" })}>
-                <h5>Pepe</h5>
+            {(allRestaurant && (
+              <>
+                {allRestaurant.map((data) => (
+                  <>
+                    {valueSelect.id !== data.id && (
+                      <div
+                        key={`Key restaurant: ${data.id}`}
+                        onClick={() =>
+                          ValueSelect({ id: data.id, name: data.name })
+                        }
+                      >
+                        <h5>{data.name}</h5>
+                      </div>
+                    )}
+                  </>
+                ))}
+              </>
+            )) || (
+              <div>
+                <h5>Not restaurant</h5>
               </div>
             )}
           </DivModalSelect>

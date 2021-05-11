@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+// styles
 import {
   Nav,
   SectionNav,
@@ -8,9 +10,7 @@ import {
   Icon,
   DivRestaurant,
 } from "./styles/nav.styles";
-import NavButton from "../nav-button/nav-button.component";
-import NavSelect from "../nav-select/nav-select.components";
-import HeaderController from "../header/header.controller";
+// component for evergreen
 import {
   FullCircleIcon,
   PersonIcon,
@@ -23,8 +23,21 @@ import {
   SideSheet,
   Paragraph,
 } from "evergreen-ui";
+//components
+import NavButton from "../nav-button/nav-button.component";
+import NavSelect from "../nav-select/nav-select.components";
+import HeaderController from "../header/header.controller";
+//reducer
+import { obtenerAllRestaurantAction } from "../../../reducers/restaurant.reducer";
+import { infoUserAction } from "../../../reducers/user.reducer";
+
 export default function NavComponents() {
+  const dispatch = useDispatch();
   const [shown, setShown] = useState(false);
+
+  dispatch(obtenerAllRestaurantAction());
+  dispatch(infoUserAction());
+
   return (
     <>
       <Nav>
