@@ -1,5 +1,6 @@
 import axios from "axios";
 axios.defaults.withCredentials = true;
+import {HYDRATE} from 'next-redux-wrapper';
 // const
 const dataInitial = {
   array: [],
@@ -13,6 +14,8 @@ const ACTIVE_RESTAURANT = "@RESTAURANT/ACTIVE";
 // reducer
 export default function restaurantReducer(state = dataInitial, action) {
   switch (action.type) {
+    case HYDRATE:
+      return {...state, ...action.payload};
     case ALL_RESTAURANT:
       return { ...state, array: action.payload };
     case ACTIVE_RESTAURANT:
@@ -25,7 +28,7 @@ export default function restaurantReducer(state = dataInitial, action) {
 
 // actions
 export const obtenerAllRestaurantAction = () => async (dispatch, getState) => {
-  axios
+  await axios
     .get(`${process.env.url_restaurant}restaurant/all-restaurant`, {
       withCredentials: true,
     })
@@ -35,7 +38,7 @@ export const obtenerAllRestaurantAction = () => async (dispatch, getState) => {
         payload: data.restaurant,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((e) => {});
 };
 
 export const ActiveRestaurantAction = (idRestaurant) => async (dispatch, getState) => {

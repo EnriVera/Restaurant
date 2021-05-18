@@ -1,13 +1,11 @@
-import Tables from "./tables-entity";
 import AdditionProduct from "./addition-product-entity";
-import {Observable} from "rxjs";
 
 interface Addition {
-    id: Observable<string>,
-    data: Observable<Date>,
-    status: Observable<string>,
-    total: Observable<number>,
-    table: Observable<Tables>,
+    id: string,
+    data: Date,
+    status: string,
+    total: number,
+    table: any,
     addition_product: Array<AdditionProduct>,
 }
 

@@ -62,6 +62,22 @@ const Icon = styled(NavIcon)`
   cursor: pointer;
 `;
 
+const DivImg = styled.div(() => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center"
+}))
+
+const SpanImg = styled.span(() => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  h1: {
+    color: "#5e5873",
+    fontSize: "22px"
+  }
+}))
+
 module.exports = {
   Nav,
   SectionNav,
@@ -70,4 +86,6 @@ module.exports = {
   ArticleDashboard,
   Icon,
   DivRestaurant,
+  DivImg,
+  SpanImg
 };

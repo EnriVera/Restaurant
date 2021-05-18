@@ -34,8 +34,8 @@ export default function HeaderController() {
           <DivUser>
             <p>{owner.name}</p>
             {(owner.logo === null && (
-              <Avatar isSolid name={owner.name} size={40} />
-            )) || <Avatar src={owner.logo} name={owner.name} size={40} />}
+              <Avatar color="green" name={owner.name || "Restaurant"} size={40} style={{color: "red"}} />
+            )) || <Avatar src={owner.logo} name={owner.name || "Restaurant"} size={40} />}
           </DivUser>
         </Popover>
       </Header>

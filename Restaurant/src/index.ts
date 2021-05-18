@@ -14,6 +14,7 @@ import SequelizeInit from "./REPOSITORY/DTO/sequelize/sequelize-init";
 // import rutes
 const owner_router = require("./API/ROUTER/owner-router");
 const restaurant_router = require("./API/ROUTER/restaurant.router");
+const waiter_router = require("./API/ROUTER/waiter.router");
 // init
 const PORT = process.env.PORT;
 const app = express();
@@ -50,6 +51,7 @@ app.use(cookieParser());
 // rutes
 app.use("/owner", owner_router);
 app.use("/restaurant", restaurant_router);
+app.use("/waiter", waiter_router);
 
 app.listen(PORT, () => {
   console.log(`⚡️[server]: Server is running at http://192.168.0.9:${PORT}`);

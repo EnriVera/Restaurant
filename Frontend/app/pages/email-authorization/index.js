@@ -1,7 +1,14 @@
 // styles
-const { Div } = require('../../styles/email-authorization/email-authorization.styles')
+const {
+  Div,
+} = require("../../styles/email-authorization/email-authorization.styles");
 import Head_Main from "../../components/head-main";
-export default function EmailAuthorization() {
+
+/**
+ * Esta funcion se renderiza cuando la ruta es path("/email-authorization")
+ * @returns {any}
+ */
+const EmailAuthorization = () => {
   return (
     <>
       <Head_Main>
@@ -16,4 +23,6 @@ export default function EmailAuthorization() {
       </Head_Main>
     </>
   );
-}
+};
+
+module.exports = { EmailAuthorization };

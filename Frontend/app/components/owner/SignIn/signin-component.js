@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 const { ContainerFrom, ForgotPassword, Input } = require("./styles/signin.styles");
 
 //model
-const {SignIn} = require("../../../models/owner/signin.model");
+import SignIn from "../../../models/owner/signin.model";
 
 export default function SignIn_Component() {
   const router = useRouter();

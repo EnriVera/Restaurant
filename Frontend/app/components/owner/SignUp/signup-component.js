@@ -6,7 +6,7 @@ import { toaster } from "evergreen-ui";
 const { ContainerFrom, ForgotPassword, Input} = require("./styles/signup.styles");
 
 //modules
-const { EnviarInformacion } = require("../../../models/owner/signup.model");
+import EnviarInformacion from "../../../models/owner/signup.model";
 
 export default function SignUp_Component() {
   const router = useRouter();

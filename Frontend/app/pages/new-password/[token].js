@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useRouter } from "next/router";
 // styles
 import { SectionPassword } from "../../styles/send-new-password/send-new-password.styles";
@@ -7,8 +6,17 @@ import { SectionPassword } from "../../styles/send-new-password/send-new-passwor
 import Head_Main from "../../components/head-main";
 import NewPassword_Component from "../../components/owner/NewPassword/new-password.component";
 
-export default function NewPassword() {
+/**
+ * Esta funcion se renderiza cuando la ruta es path("/new-password/user?v={token del owner}")
+ * @returns {any}
+ */
+const NewPassword = () => {
   const router = useRouter();
+
+  /**
+   * Esta constante devuelve el token del owner
+   * @type {String}
+   */
   const { v } = router.query;
   return (
     <>
@@ -19,4 +27,6 @@ export default function NewPassword() {
       </Head_Main>
     </>
   );
-}
+};
+
+module.exports = { NewPassword };

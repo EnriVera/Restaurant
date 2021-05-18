@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { toaster } from "evergreen-ui";
 
-const {NewPasswordModel} = require("../../../models/owner/new-password.model");
+import NewPasswordModel from "../../../models/owner/new-password.model";
 
 export default function NewPassword_Component({ token }) {
   const [user, setUser] = useState({

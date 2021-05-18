@@ -13,13 +13,6 @@ import { ChevronDownIcon, ChevronUpIcon } from "evergreen-ui";
 export default function NavSelect() {
   const dispatch = useDispatch();
   const [select, setSelect] = useState(false);
-  // const [valueSelect, setValueSelect] = useState({
-  //   id: "none",
-  //   name: "None",
-  //   count_tables: "0",
-  //   count_waiters: "0",
-  //   waiters_working: "0",
-  // });
   const valueSelect = useSelector((store) => store.restaurant.active);
   const allRestaurant = useSelector((store) => store.restaurant.array);
 
@@ -39,28 +32,29 @@ export default function NavSelect() {
         </DivSelect>
         {select && (
           <DivModalSelect>
-            {(allRestaurant && (
-              <>
-                {allRestaurant.map((data) => (
-                  <>
-                    {valueSelect.id !== data.id && (
-                      <div
-                        key={`Key restaurant: ${data.id}`}
-                        onClick={() =>
-                          ValueSelect({ id: data.id, name: data.name })
-                        }
-                      >
-                        <h5>{data.name}</h5>
-                      </div>
-                    )}
-                  </>
-                ))}
-              </>
-            )) || (
-              <div>
+            {
+              (allRestaurant.length !== 0) && (
+                <>
+                  {allRestaurant.map((data) => (
+                    <span key={`Key restaurant: ${data.id || "none"}`}>
+                      {valueSelect.id !== data.id && (
+                        <div
+                          onClick={() =>
+                            ValueSelect({ id: data.id, name: data.name })
+                          }
+                        >
+                          <h5>{data.name}</h5>
+                        </div>
+                      )}
+                    </span>
+                  ))}
+                </>
+              ) || (
+                <div>
                 <h5>Not restaurant</h5>
               </div>
-            )}
+              )
+            }
           </DivModalSelect>
         )}
       </ArticleNavButton>

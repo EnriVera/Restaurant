@@ -9,7 +9,7 @@ export default function NavButton({ title, icon }) {
   return (
     <>
       <ArticleNavButton>
-        <Link href="">
+        <Link href={`/${title.toLowerCase()}`}>
           <A>
             <Icon icon={icon} size={12} />
             <h5>{title}</h5>

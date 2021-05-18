@@ -1,0 +1,21 @@
+{
+  "source": {
+    "include": [
+      "./pages/index.js",
+      "./pages/dashboard/",
+      "./pages/email-authorization/",
+      "./pages/email-valit-authorization/",
+      "./pages/new-password/",
+      "./pages/send-password/",
+      "./components",
+      "./models/owner/",
+      "./reducers/"
+    ],
+    "includePattern": ".+\\.js(doc|x)?$",
+    "exclude": "node_modules/|docs"
+  },
+  "plugins": [],
+  "opts": {
+    "destination": "docs/"
+  }
+}

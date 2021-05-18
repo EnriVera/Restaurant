@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // styles
 import {
@@ -9,7 +9,10 @@ import {
   ArticleDashboard,
   Icon,
   DivRestaurant,
+  DivImg,
+  SpanImg
 } from "./styles/nav.styles";
+import SvgComponent from "../../../public/img-select.restaurant"
 // component for evergreen
 import {
   FullCircleIcon,
@@ -31,13 +34,13 @@ import HeaderController from "../header/header.controller";
 import { obtenerAllRestaurantAction } from "../../../reducers/restaurant.reducer";
 import { infoUserAction } from "../../../reducers/user.reducer";
 
-export default function NavComponents() {
+export default function NavComponents({ children }) {
   const dispatch = useDispatch();
   const [shown, setShown] = useState(false);
 
-  dispatch(obtenerAllRestaurantAction());
-  dispatch(infoUserAction());
-
+  useMemo(() => dispatch(obtenerAllRestaurantAction()));
+  useMemo(() => dispatch(infoUserAction()));
+  const restaurant = useSelector((store) => store.restaurant.active);
   return (
     <>
       <Nav>
@@ -52,7 +55,7 @@ export default function NavComponents() {
           <Div>
             <p>Tools</p>
           </Div>
-          <NavButton title="Dasboard" icon={TimelineAreaChartIcon} />
+          <NavButton title="Dashboard" icon={TimelineAreaChartIcon} />
           <NavButton title="Tables" icon={FullCircleIcon} />
           <NavButton title="Waiter" icon={PersonIcon} />
           <NavButton title="Product" icon={GlassIcon} />
@@ -60,7 +63,22 @@ export default function NavComponents() {
         </SectionNav>
         <SectionContainer>
           <HeaderController />
-          <ArticleDashboard></ArticleDashboard>
+          <ArticleDashboard>
+          {
+            restaurant.id === undefined && (
+              <DivImg>
+                <SpanImg>
+                  <SvgComponent />
+                  <h1>Seleccione un restaurant o cree uno nuevo</h1>
+                </SpanImg>
+              </DivImg>
+            ) || (
+              <>
+                {children}
+              </>
+            )
+          }
+          </ArticleDashboard>
         </SectionContainer>
       </Nav>
 

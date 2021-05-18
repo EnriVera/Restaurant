@@ -4,13 +4,28 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 // import getConfig from 'next/config'
 
-import Valid from "./valid-password-email.model";
+const Valid = require("./valid-password-email.model");
 
+/**
+ *Funcion para iniciar session
+ * @param {USER} user Contiene informacion del owner
+ * @param {*} router Permite redirigir el path
+ * @returns {void}
+ */
 const SignIn = async (user, router) => {
-  const valid = Valid(user, {m: true, p: false});
+  
+  /**
+   * Permite retornar la validacion del password y del email
+   * @type {Boolean}
+   */
+  const valid = Valid(user, { m: true, p: false });
 
   if (!valid) return null;
 
+  /**
+   * Convierte la informacion del owner en un token
+   * @type {String}
+   */
   const owner = await jwt.sign(
     {
       owner: {
@@ -20,17 +35,19 @@ const SignIn = async (user, router) => {
     },
     process.env.secret_jwt
   );
-  
+
+  /**
+   * Envia al backend el token del owner, para luego iniciar session
+   */
   await axios
     .post(
       `${process.env.url_restaurant}owner/signin`,
       {},
       // { headers: { oauth: owner } }
-      { withCredentials: true, headers: { oauth: owner }}
+      { withCredentials: true, headers: { oauth: owner } }
     )
     .then((e) => {
-      console.log(e)
-      router.push("/dashboard")
+      router.push("/dashboard");
     })
     .catch((e) => {
       if (e.response.status === 500) {
@@ -38,9 +55,11 @@ const SignIn = async (user, router) => {
           description: "Verifique su coneccion a internet, o intente mas tarde",
         });
       } else {
-        toaster.danger("El email o el password son incorectos o el email no existe");
+        toaster.danger(
+          "El email o el password son incorectos o el email no existe"
+        );
       }
     });
 };
 
-module.exports = { SignIn };
+export default SignIn;

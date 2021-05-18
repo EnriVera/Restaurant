@@ -5,7 +5,11 @@ import { SectionPassword } from "../../styles/send-new-password/send-new-passwor
 import SendPassword_Component from "../../components/owner/SendPassword/send-password.component";
 import Head_Main from "../../components/head-main";
 
-export default function SendPassword() {
+/**
+ * Esta funcion se renderiza cuando la ruta es path("/send-password")
+ * @returns {any}
+ */
+const SendPassword = () => {
   return (
     <>
       <Head_Main>
@@ -15,4 +19,6 @@ export default function SendPassword() {
       </Head_Main>
     </>
   );
-}
+};
+
+module.exports = { SectionPassword };

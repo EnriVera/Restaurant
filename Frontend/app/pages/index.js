@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
+import Redirect from "../models/redirect.model";
 // style
 import {
   SectionLoginImages,
@@ -17,8 +19,16 @@ import Google_Component from "../components/owner/Google/google.component";
 import SignIn_Component from "../components/owner/SignIn/signin-component";
 import Head_Main from "../components/head-main";
 
-export default function Home() {
+/**
+ * Esta funcion se renderiza cuando la ruta es path("/")
+ * @returns {any}
+ */
+const Home = () => {
   const [login, setLogin] = useState(true);
+  const router = useRouter();
+  useEffect(() => {
+    Redirect(router);
+  }, []);
   return (
     <>
       <Head_Main>
@@ -66,4 +76,6 @@ export default function Home() {
       </Head_Main>
     </>
   );
-}
+};
+
+module.exports = Home;

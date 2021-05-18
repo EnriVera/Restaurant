@@ -9,7 +9,7 @@ function SequelizeInit() {
     sequelize.authenticate()
         .then(async () => {
             await Tables();
-            setInterval(async () => {
+            setTimeout(async () => {
                 await Addition();
                 await AdditionProduct();
                 await console.info('INFO - Database connected.')

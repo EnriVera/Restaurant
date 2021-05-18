@@ -1,15 +1,16 @@
-import Restaurant from "./restaurant-entity";
-import Waiter from "./waiter-entity";
-import Addition from "./addition-entity"
-import {Observable} from "rxjs";
-
-interface Tables {
-    id: Observable<string>,
-    name_table: Observable<string>,
-    restaurant: Observable<Restaurant>,
-    waiter: Observable<Waiter>,
-    addition: Array<Addition>
+export interface tables {
+    id?: string,
+    name_table?: string,
+    count_chairs?: number,
+    status?: string,
+    id_restaurant?: string,
+    id_waiter?: string,
+    id_addition?: string
 }
-
-
-export default Tables;
+export interface tables_json {
+    id: string,
+    name_table: string,
+    count_chairs: number,
+    status: string,
+    waiter: any,
+}
