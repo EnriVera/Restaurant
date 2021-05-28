@@ -1,15 +1,16 @@
 const express = require("express");
 const passport = require("passport");
 import Owner from "../CONTROLLER/owner-controller";
+import { SessionJson } from "./session";
 const router = express.Router();
 
 const owner = new Owner();
 owner.AddOwnerGoogle();
 const { ACSESS_URL } = process.env;
 
-router.post(
+router.get(
   "/validate",
-  (req: any, res: any, next: any) => owner.ValidateUser(req, res, next)
+  (req: any, res: any) => SessionJson(req, res)
 );
 
 router.post(

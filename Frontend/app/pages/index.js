@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-
+import Image from 'next/image'
 import Redirect from "../models/redirect.model";
 // style
 import {
@@ -34,7 +34,13 @@ const Home = () => {
       <Head_Main>
         <SectionLoginImages>
           <ArticleImages>
-            <Login />
+            {/* <Login /> */}
+            <Image
+        src="/login.jpg"
+        alt="Picture of the author"
+        width={1000}
+        height={1160}
+      />
           </ArticleImages>
           <ArticleLogin>
             <SpanTitle>

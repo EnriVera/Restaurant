@@ -45,7 +45,7 @@ const EnviarInformacion = async (user, router) => {
       { headers: { oauth: owner } }
     )
     .then(() => router.push("/email-authorization"))
-    .catch(() => {
+    .catch((e) => {
       if (e.response.status === 500) {
         toaster.danger("😔 Ocurio un problema", {
           description: "Verifique su coneccion a internet, o intente mas tarde",

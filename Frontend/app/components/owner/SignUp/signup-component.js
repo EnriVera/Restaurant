@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { toaster } from "evergreen-ui";
 
 // styles
-const { ContainerFrom, ForgotPassword, Input} = require("./styles/signup.styles");
+const { ContainerFrom, ForgotPassword, Input, Submit} = require("./styles/signup.styles");
 
 //modules
 import EnviarInformacion from "../../../models/owner/signup.model";
@@ -67,7 +67,7 @@ export default function SignUp_Component() {
           >
             Forgot password?
           </ForgotPassword>
-          <Input type="submit" value="Iniciar secion ahora" />
+          <Submit type="submit" value="Iniciar secion ahora" />
         </form>
       </div>
     </>

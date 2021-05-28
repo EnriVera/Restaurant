@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
 // styles
 import {
   Nav,
@@ -36,9 +37,12 @@ import { infoUserAction } from "../../../reducers/user.reducer";
 
 export default function NavComponents({ children }) {
   const dispatch = useDispatch();
+  const router = useRouter()
   const [shown, setShown] = useState(false);
 
-  useMemo(() => dispatch(obtenerAllRestaurantAction()));
+  useEffect(() => {
+    dispatch(obtenerAllRestaurantAction(router));
+  }, [])
   useMemo(() => dispatch(infoUserAction()));
   const restaurant = useSelector((store) => store.restaurant.active);
   return (

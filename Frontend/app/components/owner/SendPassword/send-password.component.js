@@ -1,6 +1,8 @@
 import { useState } from "react";
 
 import SendEmail from "../../../models/owner/send-email.model"
+
+const Submit = require('./styles/send-password.components')
 export default function SendPassword_Component() {
   const [user, setUser] = useState({
     email: "",
@@ -30,7 +32,7 @@ export default function SendPassword_Component() {
             placeholder="Email"
             onChange={({target}) => handleOnChange(target.value, 'email')}
           />
-          <input type="submit" value="Continuar" />
+          <Submit type="submit" value="Continuar" />
         </form>
       </article>
     </>

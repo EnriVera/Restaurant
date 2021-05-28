@@ -15,10 +15,10 @@ const SectionLoginImages = styled.section`
 
 const ArticleImages = styled.article`
   width: 50%;
-  display: flex;
+  ${'' /* display: flex;
   justify-content: center;
-  align-items: center;
-  margin-top: 5rem;
+  align-items: center; */}
+  ${'' /* margin-top: 5rem; */}
   @media (max-width: 1300px) {
     display: none;
   }

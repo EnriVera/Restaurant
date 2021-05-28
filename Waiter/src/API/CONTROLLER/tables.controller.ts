@@ -13,6 +13,17 @@ export default class TablesController {
       : res.status(404).json({ message: "Id of restaurant invalit" });
   }
 
+  public async GetAllTableForWaiter(req: any, res: any) {
+    const info: Array<any> = await this.tables
+      .GetAllTableForWaiter(req.query.idWaiter)
+      .then((data) => data);
+    if (info.length > 0) {
+      res.status(200).json(info);
+    } else {
+      res.status(404).json({ message: "Not info" });
+    }
+  }
+
   public async PostTables(req: any, res: any) {
     const data: tables = req.body.table;
     const add = await this.tables

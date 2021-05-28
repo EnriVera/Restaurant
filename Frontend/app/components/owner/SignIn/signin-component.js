@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 
 //styles
-const { ContainerFrom, ForgotPassword, Input } = require("./styles/signin.styles");
+const { ContainerFrom, ForgotPassword, Input, Submit } = require("./styles/signin.styles");
 
 //model
 import SignIn from "../../../models/owner/signin.model";
@@ -44,7 +44,7 @@ export default function SignIn_Component() {
           >
             Forgot password?
           </span>
-          <Input type="submit" value="Iniciar secion ahora" />
+          <Submit type="submit" value="Iniciar secion ahora" />
         </form>
       </div>
     </>

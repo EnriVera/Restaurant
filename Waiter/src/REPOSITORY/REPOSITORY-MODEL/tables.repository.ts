@@ -53,7 +53,7 @@ export class TablesRepository implements ITables {
         WHERE ts.id_restaurant = '${table.id_restaurant}';`
         )
         .catch(() => reject(null));
-      if (sql[1].rowCount > 1) {
+      if (sql[1].rowCount > 0) {
         let arrayTables: Array<any> = [];
         sql[0].map((data: any) => {
           const table: tables_json = {
@@ -73,6 +73,21 @@ export class TablesRepository implements ITables {
         resolve(arrayTables);
       }
       else reject(null)
+    });
+  }
+
+  public async GetAllTableForWaiter(idWaiter: string): Promise<Array<tables_json>> {
+    return await new Promise(async (resolve, reject) => {
+      const sqlTable = await sequelize.query(`
+        SELECT
+            ts.id, ts.name_table, ts.count_chairs, ts.status, ts.id_waiter
+        FROM tables ts WHERE ts.id_waiter = '${idWaiter}';`);
+
+      let jsonRES: Array<tables_json> = [];
+      if (sqlTable[1].rowCount > 0) {
+          jsonRES.push(sqlTable[0])
+      }
+      resolve(jsonRES);
     });
   }
 }

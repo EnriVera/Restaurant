@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from 'next/router'
 import { AxiosR, AxiosW } from "../../../models/Axios";
 import { toaster, Select } from "evergreen-ui";
 const {
@@ -14,6 +15,7 @@ const { NewTable } = require("../../../models/tables/new-table.models");
 const { DeleteTables } = require("../../../models/tables/delete-table.models");
 const AddPutTableController = ({ state, shown }) => {
   const dispatch = useDispatch();
+  const router = useRouter()
   const [table, setTable] = useState({
     name_table: "",
     count_chairs: 0,
@@ -34,7 +36,7 @@ const AddPutTableController = ({ state, shown }) => {
         }
       });
     }
-    AxiosR.get("waiter/all-waiter")
+    AxiosR(router).get("waiter/all-waiter-table")
       .then(({ data }) => setWaiter(data))
       .catch(() => toaster.danger("No contiene ningun Waiter"));
   }, []);

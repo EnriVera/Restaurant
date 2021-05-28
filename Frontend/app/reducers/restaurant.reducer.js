@@ -1,5 +1,4 @@
-import axios from "axios";
-axios.defaults.withCredentials = true;
+import {AxiosR} from "../models/Axios"
 import {HYDRATE} from 'next-redux-wrapper';
 // const
 const dataInitial = {
@@ -27,11 +26,9 @@ export default function restaurantReducer(state = dataInitial, action) {
 }
 
 // actions
-export const obtenerAllRestaurantAction = () => async (dispatch, getState) => {
-  await axios
-    .get(`${process.env.url_restaurant}restaurant/all-restaurant`, {
-      withCredentials: true,
-    })
+export const obtenerAllRestaurantAction = (router) => async (dispatch, getState) => {
+  await AxiosR(router)
+    .get(`restaurant/all-restaurant`)
     .then(({ data }) => {
       dispatch({
         type: ALL_RESTAURANT,

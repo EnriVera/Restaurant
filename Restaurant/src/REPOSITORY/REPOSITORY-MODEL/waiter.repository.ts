@@ -1,39 +1,81 @@
-import { waiter_json } from "../../MODEL/ENTITY/waiter-entity";
-import { Waiter } from "../../MODEL/INTERFACE/waiter-interface";
+import { waiter_json, Waiter } from "../../MODEL/ENTITY/waiter-entity";
+import { IWaiter } from "../../MODEL/INTERFACE/waiter-interface";
 const { sequelize } = require("../../REPOSITORY/DTO/sequelize/sequelize");
-class WaiterRepository implements Waiter {
-  public async GetAllWaiter(): Promise<Array<waiter_json>> {
-    return await new Promise(async(resolve, reject) => {
-      const sqlTable = await sequelize.query(`
-        SELECT
-            ts.id, ts.name_table, ts.count_chairs, ts.status, ts.id_waiter
-        FROM tables ts
-            INNER JOIN waiter wa ON ts.id_waiter = wa.id;`);
-      const sqlWaiter = await sequelize.query(`
-        SELECT
-            wai.id, wai.name, wai.number_mozo
-        FROM waiter wai`);
+class WaiterRepository implements IWaiter {
+  public async GetAllWaiter(waiter: Waiter): Promise<Array<waiter_json>> {
+    return await new Promise(async (resolve, reject) => {
+      const sql = await sequelize
+        .query(
+          `
+          SELECT wa.*, COUNT(ts.*) as count_tables
+          FROM waiter wa
+              INNER JOIN tables ts ON ts.id_waiter = wa.id
+          WHERE wa.id_restaurant = '${waiter.id_restaurant}'
+          GROUP BY wa.id;
+          `
+        )
+        .catch(() => reject(null));
+      if (sql[1].rowCount > 1) {
+        let arrayWaiter: Array<any> = [];
+        sql[0].map((data: Waiter) => {
+          const waiter: Waiter = {
+            id: data.id,
+            name: data.name,
+            number_mozo: data.number_mozo,
+            count_tables: data.count_tables
+          };
 
-      let jsonRES: Array<waiter_json> = [];
-      if (sqlWaiter[1].rowCount > 1) {
-        sqlWaiter[0].map((info: any) => {
-          if (sqlTable[1].rowCount > 1) {
-            const table = sqlTable[0].find(
-              (data: any) => data.id_waiter === info.id
-            );
-            if (table) {
-              jsonRES.push({
-                ...info,
-                tables: table,
-              });
-            }
-            else jsonRES.push(info);
-          } else {
-            jsonRES.push(info);
-          }
+          arrayWaiter.push(waiter);
         });
+        resolve(arrayWaiter);
       }
-      resolve(jsonRES);
+      else reject(null)
+    });
+  }
+
+  public async AddWaiter(waiter: Waiter): Promise<Boolean> {
+    return await new Promise(async (resolve, reject) => {
+      await sequelize
+        .query(
+          `
+        INSERT INTO waiter(id, name, number_mozo, id_restaurant)
+        VALUES (
+          uuid_generate_v4(),
+          '${waiter.name}',
+          ${Math.floor(100 + Math.random() * 900000)},
+          '${waiter.id_restaurant}'
+        );
+      `
+        )
+        .then(() => resolve(true))
+        .catch(() => reject(null));
+    });
+  }
+  public async UpdateWaiter(waiter: Waiter): Promise<Boolean> {
+    return await new Promise(async (resolve, reject) => {
+      await sequelize
+        .query(
+          `
+        UPDATE waiter 
+        SET name = '${waiter.name}', 
+        WHERE id = '${waiter.id}'
+      `
+        )
+        .then(() => resolve(true))
+        .catch(() => reject(null));
+    });
+  }
+  public async DeleteWaiter(waiter: Waiter): Promise<Boolean> {
+    return await new Promise(async (resolve, reject) => {
+      await sequelize
+        .query(
+          `
+        DELETE FROM waiter
+        WHERE id = '${waiter.id}';
+      `
+        )
+        .then(() => resolve(true))
+        .catch(() => reject(null));
     });
   }
 }

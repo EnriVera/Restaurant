@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from "react-redux";
 import {
   Table,
@@ -12,7 +13,6 @@ import {
   EditIcon,
 } from "evergreen-ui";
 import { GetAllTablesAction } from "../../../reducers/tables.reducer";
-import { AxiosW } from "../../../models/Axios";
 
 const AddPutTableController = require("../../../components/tables/add-put/add-put-table.controller");
 
@@ -21,6 +21,7 @@ const { Div, SpanHeaderTable } = require("./styles/list-tables.styles");
 
 const LitsTablesController = () => {
   const dispatch = useDispatch();
+  const router = useRouter()
   const restaurantActive = useSelector((store) => store.restaurant.active);
   const tablesAll = useSelector((store) => store.table.allArray);
 
@@ -36,7 +37,7 @@ const LitsTablesController = () => {
 
   useEffect(() => {
     if (restaurantActive.id !== undefined) {
-      dispatch(GetAllTablesAction());
+      dispatch(GetAllTablesAction(router));
     }
   }, [restaurantActive]);
   return (

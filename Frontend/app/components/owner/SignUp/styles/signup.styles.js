@@ -19,7 +19,15 @@ const ForgotPassword = styled.span`
 `;
 
 const Input = styled.input`
-  border: 2px solid rgb(54, 54, 54)
-`
+  border: 2px solid rgb(54, 54, 54);
+`;
 
-module.exports = { ContainerFrom, ForgotPassword, Input };
+const Submit = styled.input`
+  width: 85%;
+  background: #dcf2ea;
+  color: #429777;
+  margin: 20px auto 10px auto;
+  padding: 15px 0 15px 0;
+`;
+
+module.exports = { ContainerFrom, ForgotPassword, Input, Submit };

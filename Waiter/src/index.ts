@@ -5,6 +5,7 @@ const bodyparser = require("body-parser");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 import SequelizeInit from "./REPOSITORY/DTO/sequelize/sequelize-init";
 
 //Routes
@@ -22,6 +23,7 @@ app.use(morgan("tiny"));
 app.use(helmet());
 app.use(bodyparser.urlencoded({extended:false}));
 app.use(bodyparser.json());
+app.use(cookieParser());
 
 app.use('/tables', tables_router)
 

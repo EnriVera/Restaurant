@@ -25,10 +25,11 @@ export default function tablesReducer(state = dataInitial, action) {
 }
 
 // actions
-export const GetAllTablesAction = () => (dispatch, getState) => {
+export const GetAllTablesAction = (router) => (dispatch, getState) => {
   const restaurant = getState().restaurant.active;
-  AxiosW.get(`tables/all-tables?restaurant=${restaurant.id}`)
+  AxiosW(router).get(`tables/all-tables?restaurant=${restaurant.id}`)
     .then(({ data }) => {
+      console.log(data)
       dispatch({
         type: GETALL_TABLES,
         payload: data.tables,

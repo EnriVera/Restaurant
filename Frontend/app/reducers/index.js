@@ -5,11 +5,13 @@ import thunk from 'redux-thunk'
 import restaurantReducer from "./restaurant.reducer"
 import userReducer from "./user.reducer"
 import tablesReducer from "./tables.reducer"
+import waiterReducer from "./waiter.reducer"
 
 const rootReducer = combineReducers({
     restaurant: restaurantReducer,
     owner: userReducer,
-    table: tablesReducer
+    table: tablesReducer,
+    waiter: waiterReducer
 })
 
 const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;

@@ -12,16 +12,6 @@ interface Tinfo {
 class Owner{
 
     public model: IOwner = new OwnerRepository();
-
-    public async ValidateUser(req: any, res: any, next: any) {
-        console.log(req.session);
-        res.json({message: "True"})
-        // if (req.user) {
-        //     next();
-        // } else {
-        //     res.sendStatus(401);
-        // }
-    }
     public async SingUpOwner(req: any, res: any) {
         const info: Tinfo = await this.model.sendMail("confirm_authentication", req.header("oauth"));
         this.SendNotToken(info, res)

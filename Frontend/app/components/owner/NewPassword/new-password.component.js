@@ -3,6 +3,8 @@ import { toaster } from "evergreen-ui";
 
 import NewPasswordModel from "../../../models/owner/new-password.model";
 
+const Submit = require('./styles/new-password.components')
+
 export default function NewPassword_Component({ token }) {
   const [user, setUser] = useState({
     password: "",
@@ -48,7 +50,7 @@ export default function NewPassword_Component({ token }) {
             placeholder="Repetir Password"
             onChange={({ target }) => ValidarRepetirPassword(target.value)}
           ></input>
-          <input type="submit" value="Continuar" />
+          <Submit type="submit" value="Continuar" />
         </form>
       </article>
     </>

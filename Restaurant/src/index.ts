@@ -3,7 +3,7 @@ if (process.env.NODE_ENV !== "production") require("dotenv").config();
 const express = require("express");
 const bodyparser = require("body-parser");
 const morgan = require("morgan");
-// const passport = require('passport')
+const passport = require('passport')
 const helmet = require("helmet");
 // const cookieSession = require('cookie-session')
 const session = require("express-session");
@@ -45,7 +45,7 @@ app.use(helmet());
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 app.use(cookieParser());
-// app.use(passport.initialize())
+app.use(passport.initialize())
 // app.use(passport.session());
 
 // rutes
